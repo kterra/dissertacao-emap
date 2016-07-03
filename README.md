@@ -1,4 +1,4 @@
-## Construção de um mapa de deslocamento multimodal, relacionando preço e tempo do deslocamento entre dois pontos da cidade do Rio de Janeiro
+## Construção de um mapa de deslocamento multimodal relacionando preço e tempo do deslocamento entre pontos da cidade do Rio de Janeiro
 
 #### Outputs do Trabalho
 - Mapas Estáticos
