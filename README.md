@@ -1,22 +1,23 @@
-
- ## Construção de um mapa de deslocamento multimodal, relacionando preço e tempo do deslocamento entre dois pontos da cidade do Rio de Janeiro
+## Construção de um mapa de deslocamento multimodal, relacionando preço e tempo do deslocamento entre dois pontos da cidade do Rio de Janeiro
 
 #### Outputs do Trabalho
 - Mapas Estáticos
 - Classificação de bairros por disponibilidade de mobilidade
 - Classificação de bairros por custo de mobilidade
-- Mapas Interativos - Visualização Web
+- Mapas Interativos - Visualização Web e/ou Aplicativo Mobile
 
 ### Metodologia
 1. Definir dados a serem encontrados ou capturados
  * Distâncias entre pontos pré-determinados
  * Tempo de deslocamento entre pontos pré-determinados
- * Custos de transporte entre pontos pré-determinados
+ * Custos de deslocamento (tempo x dinheiro) entre pontos pré-determinados
  * Itinerários de ônibus (antes e depois da mudança de 2016)
  * Trajetos usualmente feitos por determinados grupos da sociedade
  * outros
 2. Varredura de dados (objetivo: verificar e encontrar dados disponíveis)
- * Identificar possíveis fontes de dados: [Rio Ônibus](http://www.rioonibus.com/servicos/terminais/), [Data Rio](http://data.rio), Grupo Pensa, Lab.rio
+ * Identificar possíveis fontes de dados: [Rio Ônibus](http://www.rioonibus.com/servicos/terminais/), [Data Rio](http://data.rio), [Google Directions API](https://developers.google.com/maps/documentation/directions/?hl=pt-br),[Google Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/?hl=pt-br), [Google Maps Android API](https://developers.google.com/maps/documentation/android-api/?hl=pt-br), Grupo Pensa, Lab.rio,
+
+ * Obter os dados:
 3. Captura das informações e construção de uma base
 4. Escolha e justificativa do reticulado (considerar estações de transporte)
 5. Construção de um modelo que relacione os custos de deslocamento
