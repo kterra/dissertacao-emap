@@ -18,7 +18,7 @@
 2. Varredura de dados (em andamento)
 
   Objetivo: verificar e encontrar dados disponíveis
- * Identificar possíveis fontes de dados: [Rio Ônibus](http://www.rioonibus.com/servicos/terminais/), [Data Rio](http://data.rio), [Google Directions API](https://developers.google.com/maps/documentation/directions/?hl=pt-br),[Google Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/?hl=pt-br), [Google Maps Android API](https://developers.google.com/maps/documentation/android-api/?hl=pt-br), Grupo Pensa, Lab.rio,
+ * Identificar possíveis fontes de dados: [Rio Ônibus](http://www.rioonibus.com/servicos/terminais/), [Data Rio](http://data.rio), [Google Directions API](https://developers.google.com/maps/documentation/directions/?hl=pt-br),[Google Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/?hl=pt-br), [Google Maps Android API](https://developers.google.com/maps/documentation/android-api/?hl=pt-br), [Armazém de Dados](http://www.armazemdedados.rio.rj.gov.br/), Grupo Pensa, Lab.rio,
 
 3. Captura das informações e construção de uma base
 4. Escolha e justificativa do reticulado (considerar estações de transporte)
