@@ -47,12 +47,16 @@
 - Considerar elaborar questionários
 
 
-###Ideias extras
+### Ideias extras
 
 Analisar a dinamica de tempo/custo de deslocamento a partir de pontos que idealmente deveriam ter um fácil acesso, pois recebem uma grande quantidade de pessoas todos os dias
 
 - Construir um reticulado baseado na localização de escolas públicas do Rio e um outro de escolas privadas e comparar. Pode também ser relacionada com a dinâmica imobiliária da cidade. Escolas técnicas do Rio. Pegar dados do ENEM (ranking de escolas).
 
 - Construir um reticulado baseado na localização de hospitais do Rio. Cruzar com dados da Saúde. Pessoas são atendidad por hospitais específicos conforme seu local de moradia, mas será que conseguem chegar neles facilmente?
+
+- Construir um reticulado baseado na localização de pontos turísticos do Rio
+
+- Construir um reticulado baseado na localização de pontos culturais do Rio
 
 Possivel problema: Pessoa é atendida por hospital A, mas tem mais mobilidade para chegar ao hospital B.
