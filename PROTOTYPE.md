@@ -3,7 +3,10 @@
 ### PROTOTIPAGEM
 
 1. Escolha do reticulado: Baseado nos pontos de maior circulação durante as olimpíadas
-    * Script para Visualização Rápida de Reticulado
-2. Captura de informações relacionadas a estes pontos
-    * transporte, preços, fluxo..
-    
+* Escolha Método Visualização Rápida de Reticulado
+        QGIS (2.14 Essen)
+* Captura de informações relacionadas a estes pontos
+    * distancia e tempo de deslocamento utilizando
+          Matrix API Distance
+    * linhas de onibus
+    * preços
