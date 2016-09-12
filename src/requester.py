@@ -32,43 +32,44 @@ def format_coordinates(coordinates_list):
     return coordinates
 
 
-def distance_matrix_request_builder(origins, destinations, mode = MODE_TRANSIT, transit_mode = BUS, traffic_model = BEST_GUESS, departure_time = "now" ):
+def distance_matrix_request_builder(origins, origin_start, destinations, first, last, mode = MODE_TRANSIT, transit_mode = BUS, traffic_model = BEST_GUESS, departure_time = "now" ):
 
     gmaps = googlemaps.Client(key='AIzaSyAuzg_eIeh9ejbUCx-DyIywkbmOUvaFWLg')
 
     n = len(destinations[1:])
     loop = 10
 
+    if not os.path.exists(os.path.join("output", 'distance_matrix_distance_result.csv'), 'a')):
+        with open(os.path.join("output", 'distance_matrix_distance_result.csv'), 'a') as result_file:
+            result_file.write("{},".format("origins"))
 
-    with open(os.path.join("output", 'distance_matrix_distance_result.csv'), 'a') as result_file:
-        result_file.write("{},".format("origins"))
+        f = open('output/distance_matrix_distance_result.csv', 'a')
+        writer = csv.writer(f)
+        writer.writerow(format_coordinates(destinations[1:]))
+        f.close()
 
-    f = open('output/distance_matrix_distance_result.csv', 'a')
-    writer = csv.writer(f)
-    writer.writerow(format_coordinates(destinations[1:]))
-    f.close()
+    if not os.path.exists(os.path.join("output", 'distance_matrix_duration_result.csv'), 'a')):
+        with open(os.path.join("output", 'distance_matrix_duration_result.csv'), 'a') as result_file:
+            result_file.write("{},".format("origins"))
 
-    with open(os.path.join("output", 'distance_matrix_duration_result.csv'), 'a') as result_file:
-        result_file.write("{},".format("origins"))
+        f = open('output/distance_matrix_duration_result.csv', 'a')
+        writer = csv.writer(f)
+        writer.writerow(format_coordinates(destinations[1:]))
+        f.close()
 
-    f = open('output/distance_matrix_duration_result.csv', 'a')
-    writer = csv.writer(f)
-    writer.writerow(format_coordinates(destinations[1:]))
-    f.close()
-
-    for origin in origins[1:]:
-        first = 1
-        last = loop
+    for origin in origins[origin_start:]:
+        cur_first = first
+        cur_last = last
         n_loops = int(n/loop) + 1
-        
+
         rows = []
         destination_addresses = []
         try:
             while n_loops > 0:
-                if last > n:
-                    last = n
+                if cur_last > n:
+                    cur_last = n
                 print("Requesting Google...")
-                matrix =  gmaps.distance_matrix(format_locations([origin]), format_locations(destinations[first:last]), mode, transit_mode)
+                matrix =  gmaps.distance_matrix(format_locations([origin]), format_locations(destinations[cur_first:cur_last]), mode, transit_mode)
                 rows = rows + matrix['rows']
                 #destination_addresses= destination_addresses + format_coordinates(destinations[first:last])
                 #origin_address = matrix['origin_addresses'][0]
@@ -76,8 +77,8 @@ def distance_matrix_request_builder(origins, destinations, mode = MODE_TRANSIT, 
                 sleep(randint(1,5))
 
                 n_loops = n_loops - 1
-                first = last
-                last = first + loop
+                cur_first = cur_last
+                cur_last = cur_first + loop
         except:
             with open(os.path.join("output", 'log_distance_matrix.csv'), 'a') as log_file:
                 log_file.write("{},\"{}\",{},{}".format(origins.index(origin),str(origin[0] + "," + re.sub("\n","", origin[1])),first,last))

@@ -8,7 +8,7 @@ if __name__ == '__main__':
     origins = locations
     destinantions = locations
 
-    distance_matrix_request_builder(origins, destinantions)
+    distance_matrix_request_builder(origins,4, destinantions,360,370)
     #distance_matrix_url_builder(origins, destinantions)
 
     print("Finished.")
