@@ -3,20 +3,33 @@ import googlemaps
 import json
 import csv
 import os
+import re
 from random import randint
 from time import sleep
 
 def format_locations(coordinates_list):
 
     first_loc = coordinates_list[0]
-    locations = str(first_loc[0]) + "," + str(first_loc[1])
+    locations = str(first_loc[0]) + "," + str(re.sub("\n", "",first_loc[1]))
     #print(locations)
 
     if len(coordinates_list) > 1:
         for location in coordinates_list[1:]:
-            locations += "|" + str(location[0]) + "," + str(location[1])
+            locations += "|" + str(location[0]) + "," + str(re.sub("\n", "",location[1]))
         #print(locations)
     return locations
+
+def format_coordinates(coordinates_list):
+
+    first_loc = coordinates_list[0]
+    coordinates = [first_loc[0] + "," + re.sub("\n", "",first_loc[1])]
+    #print(locations)
+
+    if len(coordinates_list) > 1:
+        for location in coordinates_list[1:]:
+            coordinates.append( location[0] + "," + re.sub("\n", "",location[1]))
+        #print(locations)
+    return coordinates
 
 
 def distance_matrix_request_builder(origins, destinations, mode = MODE_TRANSIT, transit_mode = BUS, traffic_model = BEST_GUESS, departure_time = "now" ):
@@ -24,54 +37,59 @@ def distance_matrix_request_builder(origins, destinations, mode = MODE_TRANSIT, 
     gmaps = googlemaps.Client(key='AIzaSyAuzg_eIeh9ejbUCx-DyIywkbmOUvaFWLg')
 
     n = len(destinations[1:])
-
     loop = 10
+
+
+    with open(os.path.join("output", 'distance_matrix_distance_result.csv'), 'a') as result_file:
+        result_file.write("{},".format("origins"))
+
+    f = open('output/distance_matrix_distance_result.csv', 'a')
+    writer = csv.writer(f)
+    writer.writerow(format_coordinates(destinations[1:]))
+    f.close()
+
+    with open(os.path.join("output", 'distance_matrix_duration_result.csv'), 'a') as result_file:
+        result_file.write("{},".format("origins"))
+
+    f = open('output/distance_matrix_duration_result.csv', 'a')
+    writer = csv.writer(f)
+    writer.writerow(format_coordinates(destinations[1:]))
+    f.close()
+
     for origin in origins[1:]:
         first = 1
         last = loop
         n_loops = int(n/loop) + 1
-
+        
         rows = []
         destination_addresses = []
-        while n_loops > 0:
-            if last > n:
-                last = n
-            if first < last:
+        try:
+            while n_loops > 0:
+                if last > n:
+                    last = n
                 print("Requesting Google...")
                 matrix =  gmaps.distance_matrix(format_locations([origin]), format_locations(destinations[first:last]), mode, transit_mode)
                 rows = rows + matrix['rows']
-                destination_addresses= destination_addresses + matrix['destination_addresses']
-                origin_address = matrix['origin_addresses'][0]
+                #destination_addresses= destination_addresses + format_coordinates(destinations[first:last])
+                #origin_address = matrix['origin_addresses'][0]
                 print("Sleeping...")
                 sleep(randint(1,5))
 
-            n_loops = n_loops - 1
-            first = last + 1
-            last = first + loop
+                n_loops = n_loops - 1
+                first = last
+                last = first + loop
+        except:
+            with open(os.path.join("output", 'log_distance_matrix.csv'), 'a') as log_file:
+                log_file.write("{},\"{}\",{},{}".format(origins.index(origin),str(origin[0] + "," + re.sub("\n","", origin[1])),first,last))
             break
 
-        with open(os.path.join("output", 'distance_matrix_distance_result.csv'), 'a') as result_file:
-            result_file.write("{},".format("origins"))
+        #print(rows)
 
-        f = open('output/distance_matrix_distance_result.csv', 'a')
-        writer = csv.writer(f)
-        writer.writerow(destination_addresses)
-        f.close()
-
-        with open(os.path.join("output", 'distance_matrix_duration_result.csv'), 'a') as result_file:
-            result_file.write("{},".format("origins"))
-
-        f = open('output/distance_matrix_duration_result.csv', 'a')
-        writer = csv.writer(f)
-        writer.writerow(destination_addresses)
-        f.close()
-        print(rows)
-
+        distances = []
+        durations = []
         for row in rows:
             elements = row["elements"]
             # print("\n\nElements...")
-            distances = []
-            durations = []
             for element in elements:
                 status = element["status"]
                 if status == "OK":
@@ -84,25 +102,24 @@ def distance_matrix_request_builder(origins, destinations, mode = MODE_TRANSIT, 
                 else:
                     distances.append(0)
                     durations.append(0)
-                print("Status:")
-                print(status)
+                # print("Status:")
+                # print(status)
 
-            with open(os.path.join("output", 'distance_matrix_distance_result.csv'), 'a') as result_file:
-                result_file.write("{},".format(origin_address))
-            with open(os.path.join("output", 'distance_matrix_duration_result.csv'), 'a') as result_file:
-                result_file.write("{},".format(origin_address))
 
-            f = open('output/distance_matrix_distance_result.csv', 'a')
-            writer = csv.writer(f)
-            writer.writerow(distances)
-            f.close()
+        with open(os.path.join("output", 'distance_matrix_distance_result.csv'), 'a') as result_file:
+            result_file.write("\"{}\",".format(str(origin[0] + "," + re.sub("\n","", origin[1]))))
+        with open(os.path.join("output", 'distance_matrix_duration_result.csv'), 'a') as result_file:
+            result_file.write("\"{}\",".format(str(origin[0] + "," + re.sub("\n","", origin[1]))))
 
-            f = open('output/distance_matrix_duration_result.csv', 'a')
-            writer = csv.writer(f)
-            writer.writerow(durations)
-            f.close()
+        f = open('output/distance_matrix_distance_result.csv', 'a')
+        writer = csv.writer(f)
+        writer.writerow(distances)
+        f.close()
 
-            break
+        f = open('output/distance_matrix_duration_result.csv', 'a')
+        writer = csv.writer(f)
+        writer.writerow(durations)
+        f.close()
 
 
 
