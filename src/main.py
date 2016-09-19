@@ -6,9 +6,9 @@ if __name__ == '__main__':
 
     locations = get_coordinates("grid_capital_rj.csv")
     origins = locations
-    destinantions = locations
+    destinations = locations
 
-    distance_matrix_request_builder(origins,4, destinantions,360,370)
+    distance_matrix_request_builder(origins,7, destinations)
     #distance_matrix_url_builder(origins, destinantions)
 
     print("Finished.")
